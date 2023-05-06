@@ -1,0 +1,8 @@
+.Alignment{
+    text-align: center;
+    border: 10px;
+    background-color: rgb(236, 234, 234);
+    border-radius: 5px;
+    width: 60%;
+    margin: auto;
+}

@@ -1,0 +1,21 @@
+.categoryDiv{
+    padding: 20px;
+    border-radius: 8px;
+    display: inline-flex;
+    background-color: rgb(108, 174, 240);
+    margin: 5px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.categoryDiv:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px -10px rgba(52, 52, 53, 0.6);
+  }
+  .categorySection{
+    display: inline-flex;
+    margin-top: auto;
+    width: fit-content;
+    background-color: rgb(241, 241, 241);
+    border-radius: 8px;
+    border-style: solid;
+    border-width: 1px;
+  }
