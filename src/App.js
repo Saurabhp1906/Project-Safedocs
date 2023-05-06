@@ -9,29 +9,41 @@ import ShowFiles from "./components/ShowFiles";
 import FilesCategory from "./components/FilesCategory";
 
 function App() {
-		const [categoryArrayProp,setCategoryProp]=useState([]);
- 
- 
+  const [isOpen, setIsOpen] = useState(false);
+  const [files, setFiles] = useState([]);
+
+  const [data, setData] = useState([]);
+  const [image, setImage] = useState("");
+  const storageRef = ref(storage);
+  // New variables start
+  const [categoryArrayProp, setcatProp] = useState([]);
+  const upload = () => {
+    if (image == null) return;
+    // Sending File to Firebase Storage
+    const fileRef = ref(storage, "file1.pdf");
+    uploadBytes(fileRef, image).then((snapshot) => {
+      console.log("Uploaded file", snapshot);
+    });
+  };
 
   // List All Files
   useEffect(() => {
     const setCategory = async () => {
-					let count=0;
-					const categoryArray=[];
-      const allFiles=await list(ref(storage));
-						allFiles.prefixes.forEach((refernceFolder)=>{
-							const folderName=refernceFolder.name.toString();
-							listAll(refernceFolder).then((res)=>{
-								res.items.forEach((item)=>{
-									count=count+1;
-								})
-								categoryArray.push(folderName+' '+count);
-								count=0;
-							})
-
-						})
-						setCategoryProp(categoryArray);
-						console.log("useEffect called",categoryArray);
+      let count = 0;
+      const categoryJSON = [];
+      const allFiles = await list(storageRef);
+      allFiles.prefixes.forEach((referenceFolder) => {
+        const folderName = referenceFolder.name.toString();
+        listAll(referenceFolder).then((res) => {
+          res.items.forEach((item) => {
+            count = count + 1;
+          });
+          categoryJSON.push(folderName + "  " + count);
+          count = 0;
+        });
+        setcatProp(categoryJSON);
+        console.log("useeffect called inside setCategory", categoryJSON);
+      });
     };
     setCategory();
   }, []);
@@ -40,6 +52,22 @@ function App() {
     <div>
       <h1 className="titlecolor">SafeDocs</h1>
       <FilesCategory categoryCount={categoryArrayProp} />
+      <ShowFiles list={files} />
+      <button className={styles.primaryBtn} onClick={() => setIsOpen(true)}>
+        Open Modal
+      </button>
+      {isOpen && <UploadModal setIsOpen={setIsOpen} />}
+      <div className="App" style={{ marginTop: 250 }}>
+        <center>
+          <input
+            type="file"
+            onChange={(e) => {
+              setImage(e.target.files[0]);
+            }}
+          />
+          <button onClick={upload}>Upload</button>
+        </center>
+      </div>
     </div>
   );
 }
