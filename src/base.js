@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 
+
 const firebaseConfig = {
   projectId: "safedocs-2023",
   appId: "1:334248100368:web:07805650886a699cf1c095",

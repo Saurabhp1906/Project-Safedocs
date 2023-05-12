@@ -41,6 +41,44 @@
   color: white;
   height: 10%;
   text-align: center;
-  width: 100%;
   margin: auto;
+}
+.backgroundImage{
+  background-image: url(./Images/backgroundReact.jpg);
+  height: 100vh;
+}
+.left{
+  display: inline-flex;
+  background-color: white;
+  width: 25%;
+  margin-left: 1%;
+  border-radius: 5px;
+  margin-top: 2%;
+  padding: 10px;
+  
+}
+.right{
+  display: inline-flex;
+  background-color:white;
+  width: 69%;
+  margin: auto;
+  float: right;
+  margin-right: 2%;
+  border-radius: 5px;
+  margin-top: 2%;
+  height: 80%;
+  padding: 10px;
+}
+.block{
+  display: block;
+  text-align: justify;
+  text-align: center;
+  border-radius: 15px;
+  border-width: 2px;
+}
+.overlap{
+  z-index: 10;
+  height: 50%;
+  width: 50%;
+  display: inline-flex;
 }

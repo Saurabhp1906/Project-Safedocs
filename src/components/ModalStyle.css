@@ -14,18 +14,13 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  }
-  
-  .modal {
-    width: 430px;
-    height: fit-content;
-    background: white;
-    color: white;
+    background-color: white;
+    padding: 10px;
     z-index: 10;
-    border-radius: 16px;
-    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+    border-radius: 10px;
+    width: fit-content;
+    height: fit-content;
   }
-  
   .modalHeader {
     height: 50px;
     background: white;
@@ -45,18 +40,19 @@
   
   .modalContent {
     padding: 5px;
-    font-size: 14px;
+    font-size: 16px;
     color: #2c3e50;
     text-align: left;
-    margin: 2%;
+    
+    background-color: white;
   }
   .modalContentText {
     padding: 5px;
-    font-size: 14px;
+    font-size: 16px;
     color: #2c3e50;
     text-align: left;
-    margin: 2%;
-    width: 400px;
+    width: 100%;
+    
   }
   
   .modalActions {
@@ -124,15 +120,15 @@
     border-radius: 12px;
     font-size: 0.8rem;
     border: none;
-    color: #2c3e50;
-    background: #fcfcfc;
+    color:white;
+    background: rgb(139, 139, 232);
     transition: all 0.25s ease;
   }
   
   .cancelBtn:hover {
     box-shadow: none;
     transform: none;
-    background: whitesmoke;
+    background: blue
   }
   .categories{
     border-radius: 5px;
@@ -141,7 +137,7 @@
     border-style: ridge;
     height: fit-content;
     width: 400px;
-    margin: 2%;
+   background-color: white;
     padding: 6px;
   }
   .category{
@@ -150,7 +146,7 @@
     height: fit-content;
     width: fit-content;
     padding: 10px;
-    font-size: 14px;
+    font-size: 18px;
     margin: 4px;
     border-radius: 3px;
     display: inline-flex;
@@ -158,6 +154,40 @@
     border-style: solid;
     
   }
+  .categoryclick{
+    background-color:black ;
+    color:white;
+    height: fit-content;
+    width: fit-content;
+    padding: 10px;
+    font-size: 18px;
+    margin: 4px;
+    border-radius: 3px;
+    display: inline-flex;
+    top: 5%;
+    border-style: solid;
+  }
   .category:hover{
     cursor:pointer;
+    color: white;
+    background-color: black;
+  }
+  .category:focus{
+    background-color: black;
+    color: white;
+  }
+  
+  .inputFile{
+    background-color: white;
+    padding: 10px;
+  }
+  .loading{
+    height: 100vh;
+    width:100vw;
+    background-color: rgb(213, 207, 207);
+    text-align: center;
+    font-size: larger;
+    color: white;
+    z-index: 0;
+
   }

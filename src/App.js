@@ -1,74 +1,69 @@
 import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from 'react-router-dom';
 import "./App.css";
-import Upload from "./components/Upload";
+import FileModal from "./components/FileModal";
 import UploadModal from "./components/UploadModal";
 import styles from "./App.module.css";
 import storage from "./base.js";
-import { listAll, ref, list, uploadBytes } from "firebase/storage";
-import ShowFiles from "./components/ShowFiles";
+import { listAll, ref, list } from "firebase/storage"; //, uploadBytes
 import FilesCategory from "./components/FilesCategory";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
-  const [files, setFiles] = useState([]);
-
-  const [data, setData] = useState([]);
-  const [image, setImage] = useState("");
-  const storageRef = ref(storage);
-  // New variables start
-  const [categoryArrayProp, setcatProp] = useState([]);
-  const upload = () => {
-    if (image == null) return;
-    // Sending File to Firebase Storage
-    const fileRef = ref(storage, "file1.pdf");
-    uploadBytes(fileRef, image).then((snapshot) => {
-      console.log("Uploaded file", snapshot);
-    });
-  };
-
-  // List All Files
-  useEffect(() => {
-    const setCategory = async () => {
-      let count = 0;
-      const categoryJSON = [];
-      const allFiles = await list(storageRef);
-      allFiles.prefixes.forEach((referenceFolder) => {
-        const folderName = referenceFolder.name.toString();
-        listAll(referenceFolder).then((res) => {
-          res.items.forEach((item) => {
-            count = count + 1;
-          });
-          categoryJSON.push(folderName + "  " + count);
-          count = 0;
-        });
-        setcatProp(categoryJSON);
-        console.log("useeffect called inside setCategory", categoryJSON);
-      });
-    };
-    setCategory();
-  }, []);
+  const [files, setFiles] = useState();
+  const [fileModal,setFileModal]=useState(false);
+  const [url,setUrl]=useState();
+  const [uploadedFile,setUploadedFile]=useState("");
+  
 
   return (
-    <div>
-      <h1 className="titlecolor">SafeDocs</h1>
-      <FilesCategory categoryCount={categoryArrayProp} />
-      <ShowFiles list={files} />
-      <button className={styles.primaryBtn} onClick={() => setIsOpen(true)}>
-        Open Modal
-      </button>
-      {isOpen && <UploadModal setIsOpen={setIsOpen} />}
-      <div className="App" style={{ marginTop: 250 }}>
-        <center>
-          <input
-            type="file"
-            onChange={(e) => {
-              setImage(e.target.files[0]);
-            }}
-          />
-          <button onClick={upload}>Upload</button>
-        </center>
+    <>
+     <div className="backgroundImage ">
+     {isOpen && <UploadModal setIsOpen={setIsOpen} setUploadedFile={setUploadedFile} uploaded={uploadedFile}/>}
+     {/* {isOpen && <FileModal />} */}
+        <h1 className="titlecolor">SafeDocs</h1>
+       
+        <div className="left">
+          <div className="container text-center">
+            <div className="col">
+              <div className="row">
+                <div className="block">
+                  Upload your documents to our cloud storage to access them
+                  anywhere on any device. You can enable password protect file
+                  sharing with SafeDocs.
+                </div>
+              </div>
+              <div className="row">
+                <div className="block">
+                  <button
+                    className={styles.primaryBtn}  onClick={() =>{
+                      setIsOpen(true);
+                      console.log(isOpen);
+                    }}                
+                  >
+                    Upload
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="right">
+          <FilesCategory setUrl={setUrl} setFileModal={setFileModal} uploadedFile={uploadedFile}/>
+          
+          {fileModal && <FileModal setFileModal={setFileModal} url={url}/>}
+        </div>
+       
       </div>
-    </div>
+      
+    </>
   );
 }
 

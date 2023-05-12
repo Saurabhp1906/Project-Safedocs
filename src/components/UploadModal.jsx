@@ -1,96 +1,120 @@
 import React, { useState } from "react";
 import "./ModalStyle.css";
 import { RiCloseLine } from "react-icons/ri";
+import { uploadBytes, ref } from "firebase/storage";
+import storage from "../base";
 
-const UploadModal = ({ setIsOpen }) => {
-  const [selectEducation, setSelectEducation] = useState(false);
-  const [selectId, setSelectId] = useState(false);
-  let color1 = "#F8F9F9";
-  const [textColor, setTextColor] = useState("#0E0301");
+const UploadModal = ({ setIsOpen, setUploadedFile, uploadedFile }) => {
+  const [uploadFolder, setUploadFolder] = useState("");
+  const [uploadFile, setUploadFile] = useState();
+  const [uploadFileName, setUploadFileName] = useState("");
+  const [loading,setLoading]=useState(true);
+  const categoriesInUpload = [
+    "Education",
+    "Work",
+    "Personal",
+    "Certificate",
+    "Hospital",
+    "Reciept",
+    "ID",
+  ];
+  const [selectedStates, setSelectedStates] = useState({
+    Education: true,
+    Work: true,
+    ID: true,
+    Personal: true,
+    Certificate: true,
+    Reciept: true,
+    Hospital: true,
+  });
+  const changeColor = (event) => {
+    const folder = event.target.id.toString();
+    console.log(folder);
+    
 
-  const [colorChanged, setColorChanged] = useState(false);
-  const [bgColor, setBgColor] = useState(color1);
-  const changeColor = () => {
-    if (colorChanged == false) {
-      let color2 = "#020000";
-      setBgColor(color2);
-      setColorChanged(true);
-      setTextColor("#F8F9F9");
-    } else {
-      setBgColor(color1);
-      setColorChanged(false);
-      setTextColor("#0E0301");
-    }
+    Object.keys(selectedStates).forEach((item) => {
+      if (item.toString() == folder) selectedStates[item] = false;
+      else selectedStates[item] = true;
+    });
+    console.log(selectedStates);
+    // console.log(selectedStates);
+    setUploadFolder(event.target.id);
+  };
+  const upload = () => {
+    if (uploadFile == null) return;
+    // Sending File to Firebase Storage
+    const folderRef = ref(storage, uploadFolder + "/");
+    const fileRef = ref(folderRef, uploadFileName);
+    uploadBytes(fileRef, uploadFile).then((snapshot) => {
+      console.log("Uploaded file", snapshot);
+      setUploadedFile(uploadFolder+'/'+uploadFileName);
+      alert("File uploaded");
+      
+    });
+    
+  };
+  const uploadFileToFirebase = () => {
+    console.log("uploadFileToFirebase called");
+    console.log(uploadFolder + "  ", uploadFile + "   ", uploadFileName);
+    if (uploadFolder != "" && uploadFile != null && uploadFileName != "") {
+      upload();
+      setIsOpen(false);
+    } else alert("Missing upload fields");
+  };
+  const handleChange = (event) => {
+    setUploadFileName(event.target.value);
   };
   return (
     <>
       <div className="darkBG" onClick={() => setIsOpen(false)} />
       <div className="centered">
-        <div className="modal">
+        <div>
           <div className="modalHeader">
-            <h5 className="heading">Dialog</h5>
+            <h5 className="heading">Upload File</h5>
           </div>
           <button className="closeBtn" onClick={() => setIsOpen(false)}>
             <RiCloseLine style={{ marginBottom: "-3px" }} />
           </button>
           <div className="modalContent">Categories</div>
           <div className="categories">
-            <div
-              className="category"
-              style={{ background: bgColor, color: textColor }}
-              onClick={changeColor}
-            >
-              Education
-            </div>
-            <div
-              className="category"
-              style={{ background: bgColor, color: textColor }}
-              onClick={changeColor}
-            >
-              ID
-            </div>
-            <div
-              className="category"
-              style={{ background: bgColor, color: textColor }}
-              onClick={changeColor}
-            >
-              Hospital
-            </div>
-            <div
-              className="category"
-              style={{ background: bgColor, color: textColor }}
-              onClick={changeColor}
-            >
-              Personal
-            </div>
-            <div
-              className="category"
-              style={{ background: bgColor, color: textColor }}
-              onClick={changeColor}
-            >
-              Certificate
-            </div>
-            <div
-              className="category"
-              style={{ background: bgColor, color: textColor }}
-              onClick={changeColor}
-            >
-              Work/Office
-            </div>
-            <div
-              className="category"
-              style={{ background: bgColor, color: textColor }}
-              onClick={changeColor}
-            >
-              Reciept
-            </div>
+            {categoriesInUpload.map((item) => {
+              return (
+                <div
+                  className={
+                    selectedStates[item] ? "category" : "categoryclick"
+                  }
+                  onClick={changeColor}
+                  id={item}
+                >
+                  {item}
+                </div>
+              );
+            })}
           </div>
           <div className="modalContent">Document Name</div>
-          <input type="text" className="modalContentText" id="name"/>
-
+          <input
+            type="text"
+            className="modalContentText"
+            id="name"
+            onChange={handleChange}
+          />
+          <div className="inputFile">
+            <input
+              placeholder="pdf file"
+              type="file"
+              onChange={(e) => {
+                setUploadFile(e.target.files[0]);
+              }}
+            />
+          </div>
           <div className="modalActions">
             <div className="actionsContainer">
-              <button className="deleteBtn" onClick={() => setIsOpen(false)}>
+              <button
+                className="deleteBtn"
+                onClick={() => {
+                  uploadFileToFirebase();
+                }}
+              >
                 Upload
               </button>
               <button className="cancelBtn" onClick={() => setIsOpen(false)}>

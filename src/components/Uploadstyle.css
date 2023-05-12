@@ -6,3 +6,8 @@
     width: 60%;
     margin: auto;
 }
+.inputFile{
+    text-align: center;
+    color: black;
+    margin: 10px;
+}
