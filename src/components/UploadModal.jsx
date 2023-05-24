@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import "./ModalStyle.css";
 import { RiCloseLine } from "react-icons/ri";
 import { uploadBytes, ref } from "firebase/storage";
-import storage from "../base";
+import {storage} from "../base";
 
-const UploadModal = ({ setIsOpen, setUploadedFile, uploadedFile }) => {
+const UploadModal = ({ setIsOpen, setUploadedFile, uploadedFile,userEmail }) => {
   const [uploadFolder, setUploadFolder] = useState("");
   const [uploadFile, setUploadFile] = useState();
   const [uploadFileName, setUploadFileName] = useState("");
@@ -43,11 +43,11 @@ const UploadModal = ({ setIsOpen, setUploadedFile, uploadedFile }) => {
   const upload = () => {
     if (uploadFile == null) return;
     // Sending File to Firebase Storage
-    const folderRef = ref(storage, uploadFolder + "/");
+    const folderRef = ref(storage, userEmail+'/'+uploadFolder + "/");
     const fileRef = ref(folderRef, uploadFileName);
     uploadBytes(fileRef, uploadFile).then((snapshot) => {
       console.log("Uploaded file", snapshot);
-      setUploadedFile(uploadFolder+'/'+uploadFileName);
+      setUploadedFile(userEmail+'/'+uploadFolder+'/'+uploadFileName);
       alert("File uploaded");
       
     });
@@ -104,6 +104,7 @@ const UploadModal = ({ setIsOpen, setUploadedFile, uploadedFile }) => {
               type="file"
               onChange={(e) => {
                 setUploadFile(e.target.files[0]);
+                console.log(e.target.files[0])
               }}
             />
           </div>

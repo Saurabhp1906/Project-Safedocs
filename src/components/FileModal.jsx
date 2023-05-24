@@ -7,7 +7,7 @@ const FileModal=({setFileModal,url})=>{
             <button className="closeBtn1" onClick={()=>setFileModal(false)} >
               <RiCloseLine style={{ marginBottom: "-3px" }} />
             </button>
-           <iframe className="fileModal1" src={url} type="application/pdf" />
+           <object className="fileModal1" data={url} type="application/pdf" />
         </div>
       </>);
 }

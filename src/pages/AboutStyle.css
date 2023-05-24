@@ -1,0 +1,33 @@
+.aboutpage{
+    height:100%;
+    position: absolute;
+}
+.abouttitle{
+    margin-top: 8%;
+    margin-bottom: 2%;
+    color: white;
+    text-align: center;
+    font-size: 50px;
+}
+.aboutsection{
+    padding: 1%;
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 8px;
+    margin-top: 1%;
+    width: 80%;
+   
+    margin: auto;
+}
+.aboutfeatures{
+ background-color: white;
+ border-radius: 8px;
+ margin: 1%;
+ display: inline;
+ padding: 2%;
+ width: 33%;
+ text-align: justify;
+ box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}

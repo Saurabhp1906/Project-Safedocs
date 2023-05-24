@@ -1,5 +1,5 @@
 import "./FilesCategoryStyle.css";
-import storage from "../base.js";
+import {storage,auth} from "../base.js";
 import ShareModal from "./ShareModal";
 import {
   listAll,
@@ -8,12 +8,14 @@ import {
   getDownloadURL,
   deleteObject,
 } from "firebase/storage";
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useState, useLayoutEffect,setUserEmail } from "react";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import { onAuthStateChanged } from "firebase/auth";
 
-function FilesCategory({ setUrl, setFileModal, uploadedFile }) {
+
+function FilesCategory({ setUrl, setFileModal, uploadedFile,userEmail ,setUserEmail}) {
   const [filesToShow, setFilesToShow] = useState([]);
-  const [a, setA] = useState([]);
+  const [a, setA] = useState(['Certificate','Education','Hospital','ID','Personal','Reciept','Work']);
   const [showShare, setShowShare] = useState(false);
   const [showFile, setShowFile] = useState(false);
   const [currentFolder, setCurrentFolder] = useState("Certificate");
@@ -54,10 +56,10 @@ function FilesCategory({ setUrl, setFileModal, uploadedFile }) {
     setCurrentFolder(folder);
     console.log(folder);
     const filesArray = [];
-    const storageRef = ref(storage, "/" + folder);
+    const storageRef = ref(storage, userEmail+"/" + folder);
     const insideFiles = await listAll(storageRef);
     insideFiles.items.forEach((item) => {
-      filesArray.push(folder + "/" + item.name);
+      filesArray.push(userEmail+'/'+folder + "/" + item.name);
     });
     if (filesArray.length == 0) {
       setFilesToShow([]);
@@ -70,41 +72,49 @@ function FilesCategory({ setUrl, setFileModal, uploadedFile }) {
   };
 
   const getfilesAtLoad = async () => {
+    const currentuserEmail=localStorage.getItem('userEmail')
+    console.log(localStorage.getItem('userEmail'),currentuserEmail)
     const filesArray = [];
-    let storageRef = ref(storage, "/" + "Education");
+    let storageRef = ref(storage, '/'+currentuserEmail+"/" + "Education");
+    console.log('/'+currentuserEmail+"/" + "Education")
     let insideFiles = await listAll(storageRef);
     insideFiles.items.forEach((item) => {
-      filesArray.push("Education/" + item.name);
+      filesArray.push(currentuserEmail+"/" +"Education/" + item.name);
     });
-    storageRef = ref(storage, "/" + "ID");
+    storageRef = ref(storage,'/'+currentuserEmail+ "/" + "ID");
     insideFiles = await listAll(storageRef);
     insideFiles.items.forEach((item) => {
-      filesArray.push("ID/" + item.name);
+      filesArray.push(currentuserEmail+"/" +"ID/" + item.name);
     });
-    storageRef = ref(storage, "/" + "Certificate");
+    storageRef = ref(storage, '/'+currentuserEmail+"/" + "Certificate");
     insideFiles = await listAll(storageRef);
     insideFiles.items.forEach((item) => {
-      filesArray.push("Certificate/" + item.name);
+      filesArray.push(currentuserEmail+"/" +"Certificate/" + item.name);
     });
-    storageRef = ref(storage, "/" + "Personal");
+    storageRef = ref(storage,'/'+currentuserEmail+ "/" + "Personal");
     insideFiles = await listAll(storageRef);
     insideFiles.items.forEach((item) => {
-      filesArray.push("Personal/" + item.name);
+      filesArray.push(currentuserEmail+"/" +"Personal/" + item.name);
     });
-    storageRef = ref(storage, "/" + "Reciept");
+    storageRef = ref(storage,'/'+ currentuserEmail+"/" + "Reciept");
     insideFiles = await listAll(storageRef);
     insideFiles.items.forEach((item) => {
-      filesArray.push("Reciept/" + item.name);
+      filesArray.push(currentuserEmail+"/" +"Reciept/" + item.name);
     });
-    storageRef = ref(storage, "/" + "Work");
+    storageRef = ref(storage,'/'+ currentuserEmail+"/" + "Work");
     insideFiles = await listAll(storageRef);
     insideFiles.items.forEach((item) => {
-      filesArray.push("Work/" + item.name);
+      filesArray.push(currentuserEmail+"/" +"Work/" + item.name);
     });
-    storageRef = ref(storage, "/" + "Hospital");
+    storageRef = ref(storage,'/'+currentuserEmail+ "/" + "Hospital");
     insideFiles = await listAll(storageRef);
     insideFiles.items.forEach((item) => {
-      filesArray.push("Hospital/" + item.name);
+      filesArray.push(currentuserEmail+"/" +"Hospital/" + item.name);
+    });
+    storageRef = ref(storage,'/'+currentuserEmail+ "/" + "test");
+    insideFiles = await listAll(storageRef);
+    insideFiles.items.forEach((item) => {
+      filesArray.push(currentuserEmail+"/" +"test/" + item.name);
     });
 
     if (filesArray.length == 0) {
@@ -116,7 +126,6 @@ function FilesCategory({ setUrl, setFileModal, uploadedFile }) {
       setNoFiles(false);
     }
     setAllFiles(filesArray);
-    console.log("value of files to show", filesToShow);
   };
 
   const openFile = (event) => {
@@ -147,9 +156,12 @@ function FilesCategory({ setUrl, setFileModal, uploadedFile }) {
   };
 
   useEffect(() => {
-    makeCategoryArray();
+   // makeCategoryArray();
     getfilesAtLoad();
   }, []);
+  useEffect(()=>{
+    
+  },[]);
   useEffect(() => {
     if (uploadedFile != "") {
       let tempArray = [uploadedFile];
@@ -214,12 +226,12 @@ function FilesCategory({ setUrl, setFileModal, uploadedFile }) {
           <div className="noFilesdiv">No Files!</div>
         </div>
       )}
-      {loading && (
+      {/* {loading && (
         <div className="loading">
           <div className="centeredloading">loading</div>
         </div>
-      )}
-      {!noFiles && !loading && (
+      )} */}
+      {!noFiles && (
         <div className="list scroll container-fluid h-75">
           {filesToShow.map((item, index) => {
             return (
@@ -231,10 +243,10 @@ function FilesCategory({ setUrl, setFileModal, uploadedFile }) {
                   onClick={openFile}
                 >
                   <div id={item} className="filedivname">
-                    {index + 1 + ".      " + item.split("/")[1]}
+                    {index + 1 + ".      " + item.split("/")[2]}
                   </div>
                   <div className="filedivcategory" id={item}>
-                    {item.split("/")[0]}
+                    {item.split("/")[1]}
                   </div>
                 </div>
                 <button

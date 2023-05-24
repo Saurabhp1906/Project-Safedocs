@@ -2,9 +2,10 @@ import { RiCloseLine } from "react-icons/ri";
 import "./ShareModalStyle.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
-import storage from "../base.js";
+import { storage } from "../base.js";
 
-import { getDownloadURL, ref } from "firebase/storage";
+import { getBlob, getBytes, getDownloadURL, ref, uploadBytes } from "firebase/storage";
+
 const ShareModal = ({ setShowShare, currentFile }) => {
   const [showLink, setShowLink] = useState(false);
   const [url, setUrl] = useState("");
@@ -17,11 +18,13 @@ const ShareModal = ({ setShowShare, currentFile }) => {
   };
 
   const getLink = () => {
+    const file=getBlob(ref(storage,currentFile))
+    
+   
     getDownloadURL(ref(storage, currentFile))
-      .then((Url) => setUrl(Url))
-      .catch((error) => {
-        alert(error);
-      });
+      .then((Url) => {
+        setUrl(Url);})
+     
     setShowLink(true);
   };
   return (
@@ -34,7 +37,11 @@ const ShareModal = ({ setShowShare, currentFile }) => {
         <div className="sharemodaltext">
           Share file {currentFile.split("/")[1]}
         </div>
-        <p>Create password protected files to share them securely to trusted people. Click enable password protection to set password or you can simply generate the link without password protection.</p>
+        <p>
+          Create password protected files to share them securely to trusted
+          people. Click enable password protection to set password or you can
+          simply generate the link without password protection.
+        </p>
         {showLink && (
           <div className="centerItems">
             <textarea
