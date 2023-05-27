@@ -17,7 +17,7 @@ return(
         
         </div>
         <button className='btn btn-light btn-lg homebtn' onClick={()=>navigate(user?'/app':"/login")}>Get started</button>
-        <button className='btn btn-light btn-lg homebtn'>Learn more about the app</button>
+        <button className='btn btn-light btn-lg homebtn' onClick={()=>navigate("/about")}>Learn more about the app</button>
             </td>
             <td>
             <img src={homeimage} height="70%" width="70%" className='homeimage'></img>

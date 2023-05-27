@@ -153,6 +153,7 @@
   height: 100%;
   position: absolute;
 }
+
 .title{
   color:white;
   font-size: 50px;
@@ -164,7 +165,4 @@
   float: right;
   height: fit-content;
   z-index: 2;
-}
-.displayover{
-
 }
