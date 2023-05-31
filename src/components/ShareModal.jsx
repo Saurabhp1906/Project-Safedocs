@@ -3,6 +3,7 @@ import "./ShareModalStyle.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import { storage } from "../base.js";
+import { PDFDocument } from 'pdf-lib-plus-encrypt'
 
 import { getBlob, getBytes, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
@@ -11,21 +12,96 @@ const ShareModal = ({ setShowShare, currentFile }) => {
   const [url, setUrl] = useState("");
   const [checked, setChecked] = useState(false);
   const [showPass, setShowPass] = useState(false);
+  const[showCheck,setShowCheck]=useState(true);
+  const [passwordProtect,setPasswordProtect]=useState(false);
+  const [password,setPassword]= useState("");
+  const [encryptLoading,setEncryptLoading]=useState(false);
+  const [showButton,setShowButton]=useState(true)
 
   const handleChange = () => {
     setChecked(!checked);
     setShowPass(!showPass);
+    setPasswordProtect(true);
   };
 
-  const getLink = () => {
-    const file=getBlob(ref(storage,currentFile))
+  const getLink = async() => {
+    setShowCheck(false);
+    let filepath;
+    if(passwordProtect){
+      setEncryptLoading(true)
+    getBytes(ref(storage,currentFile)).then(res=>{
+      console.log(res,currentFile);
+      PDFDocument.load(res).then((pdf)=>{
+        var encryptionDict = {
+          'length': 128,
+          'permission': 'print',
+        };
+        
+        pdf.encrypt({
+          userPassword: password,
+          ownerPassword: password,
+          encryptionFlags: encryptionDict,
+        });
+    
+        pdf.save({
+          data: new Uint8Array(res),
+        }).then(function(data) {
+          var blob = new Blob([data], { type: 'application/pdf' });
+          let path=currentFile.split('/')
+          let completePath=path[0]+'/'+path[1]+'/protected'+'/'+path[2]
+          filepath=completePath
+          uploadBytes(ref(storage,completePath), blob).then((snapshot) => {
+            console.log("Uploaded file", snapshot);
+            getDownloadURL(ref(storage, filepath))
+            .then((Url) => {
+              setUrl(Url);})
+           setEncryptLoading(false)
+          setShowLink(true);
+          setPasswordProtect(false);
+          setShowButton(false)
+            
+          });
+          // var url = URL.createObjectURL(blob);
+          // window.open(url); // Open the encrypted PDF in a new tab
+        });
+      })
+      
+    })
+  }else{
+    getDownloadURL(ref(storage, currentFile))
+    .then((Url) => {
+      setUrl(Url);
+    setShowButton(false)})
+   
+  setShowLink(true);
+  }
     
    
-    getDownloadURL(ref(storage, currentFile))
-      .then((Url) => {
-        setUrl(Url);})
-     
-    setShowLink(true);
+
+
+    // getDocument(file).then(function(pdf) {
+    //   var encryptionDict = {
+    //     'length': 128,
+    //     'permission': 'print',
+    //   };
+  
+    //   pdf.encrypt({
+    //     userPassword: "hello",
+    //     ownerPassword: "hello",
+    //     encryptionFlags: encryptionDict,
+    //   });
+  
+    //   pdf.save({
+    //     data: new Uint8Array(file),
+    //   }).then(function(data) {
+    //     var blob = new Blob([data], { type: 'application/pdf' });
+    //     var url = URL.createObjectURL(blob);
+    //     window.open(url); // Open the encrypted PDF in a new tab
+    //   });
+    // });
+    
+   
+    
   };
   return (
     <>
@@ -52,26 +128,32 @@ const ShareModal = ({ setShowShare, currentFile }) => {
             ></textarea>
           </div>
         )}
+        {encryptLoading && (
+          <div className="centerItems">
+           <h3>Encrypting the file. Please wait!</h3>
+          </div>
+        )}
         <div className="centerItems">
-          <label>
+          {showCheck &&<label>
             <input
               type="checkbox"
               checked={checked}
               onChange={handleChange}
             ></input>{" "}
             Enable Password protection
-          </label>
+          </label>}
           {showPass && (
             <input
               type="text"
               className="sharemodalpasswordinput"
               placeholder="Password for file"
+              onChange={(event)=>setPassword(event.target.value)}
             ></input>
           )}
         </div>
-        <button className="btn btn-primary centered3" onClick={getLink}>
+       {showButton && <button className="btn btn-primary centered3" onClick={getLink}>
           Generate Share link
-        </button>
+        </button>}
       </div>
     </>
   );
