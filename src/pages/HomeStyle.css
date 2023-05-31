@@ -1,32 +1,36 @@
-.titlehome{
+.titlehome {
     color: white;
     font-size: 80px;
     margin-top: 8%;
     margin-left: 2%;
-   
-
-}
-.text{
-font-size: 30px;
-color: white;
-
-margin-left: 2%;
-display: inline-flex;
-margin-right: 90px;
 
 
 }
-.home{
-    height:100%;
-    position:absolute;
-}
 
-.homeimage{
-    
+.text {
+    font-size: 30px;
+    color: white;
+
+    margin-left: 2%;
     display: inline-flex;
-   
+    margin-right: 90px;
+
+
 }
-.homebtn{
+
+.home {
+    height: 100%;
+    position: absolute;
+    width: 100vw;
+}
+
+.homeimage {
+
+    display: inline-flex;
+
+}
+
+.homebtn {
     margin-left: 5%;
     margin-top: 4%;
     font-size: 2em;

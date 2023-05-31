@@ -75,33 +75,7 @@ const ShareModal = ({ setShowShare, currentFile }) => {
    
   setShowLink(true);
   }
-    
    
-
-
-    // getDocument(file).then(function(pdf) {
-    //   var encryptionDict = {
-    //     'length': 128,
-    //     'permission': 'print',
-    //   };
-  
-    //   pdf.encrypt({
-    //     userPassword: "hello",
-    //     ownerPassword: "hello",
-    //     encryptionFlags: encryptionDict,
-    //   });
-  
-    //   pdf.save({
-    //     data: new Uint8Array(file),
-    //   }).then(function(data) {
-    //     var blob = new Blob([data], { type: 'application/pdf' });
-    //     var url = URL.createObjectURL(blob);
-    //     window.open(url); // Open the encrypted PDF in a new tab
-    //   });
-    // });
-    
-   
-    
   };
   return (
     <>
@@ -128,11 +102,10 @@ const ShareModal = ({ setShowShare, currentFile }) => {
             ></textarea>
           </div>
         )}
-        {encryptLoading && (
-          <div className="centerItems">
-           <h3>Encrypting the file. Please wait!</h3>
-          </div>
-        )}
+        {encryptLoading && <div className="loading">
+      <div className="loading-spinner"></div>
+      Loading
+    </div>}
         <div className="centerItems">
           {showCheck &&<label>
             <input

@@ -4,7 +4,7 @@ export default function About() {
     <div className="aboutpage">
       <div className="abouttitle">SafeDocs Features and benefits</div>
       <div className="aboutsection">
-        <div className="aboutfeatures"><h2>Document sharing</h2> You can share the documents using a share link that can be sent to others on any platform.</div>
+        <div className="aboutfeatures"><div className="blueline"></div><div className="makespan"><h2>Document sharing</h2> You can share the documents using a share link that can be sent to others on any platform.</div></div>
 
         <div className="aboutfeatures"><h2>Google firebase</h2><p> Firebase is an app development platform that helps you build and grow apps and games users love. Backed by Google and trusted by millions of businesses around the world.</p></div>
 
@@ -13,7 +13,7 @@ export default function About() {
        
       </div>
       <div className="aboutsection">
-        <div className="aboutfeatures"><h2>Categories for files</h2> Managing the documents is made easy by grouping the document according to their categories.</div>
+        <div className="aboutfeatures"><div className="blueline"></div><h2>Categories for files</h2> Managing the documents is made easy by grouping the document according to their categories.</div>
 
         <div className="aboutfeatures"><h2>Easy to Use</h2><p>SafeDocs is easy to use application with a clean and easy to use user interface.</p></div>
 

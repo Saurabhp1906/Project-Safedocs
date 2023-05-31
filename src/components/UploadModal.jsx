@@ -2,13 +2,18 @@ import React, { useState } from "react";
 import "./ModalStyle.css";
 import { RiCloseLine } from "react-icons/ri";
 import { uploadBytes, ref } from "firebase/storage";
-import {storage} from "../base";
+import { storage } from "../base";
 
-const UploadModal = ({ setIsOpen, setUploadedFile, uploadedFile,userEmail }) => {
+const UploadModal = ({
+  setIsOpen,
+  setUploadedFile,
+  uploadedFile,
+  userEmail,
+}) => {
   const [uploadFolder, setUploadFolder] = useState("");
   const [uploadFile, setUploadFile] = useState();
   const [uploadFileName, setUploadFileName] = useState("");
-  const [loading,setLoading]=useState(true);
+  const [loading, setLoading] = useState(true);
   const categoriesInUpload = [
     "Education",
     "Work",
@@ -30,7 +35,6 @@ const UploadModal = ({ setIsOpen, setUploadedFile, uploadedFile,userEmail }) => 
   const changeColor = (event) => {
     const folder = event.target.id.toString();
     console.log(folder);
-    
 
     Object.keys(selectedStates).forEach((item) => {
       if (item.toString() == folder) selectedStates[item] = false;
@@ -43,15 +47,13 @@ const UploadModal = ({ setIsOpen, setUploadedFile, uploadedFile,userEmail }) => 
   const upload = () => {
     if (uploadFile == null) return;
     // Sending File to Firebase Storage
-    const folderRef = ref(storage, userEmail+'/'+uploadFolder + "/");
+    const folderRef = ref(storage, userEmail + "/" + uploadFolder + "/");
     const fileRef = ref(folderRef, uploadFileName);
     uploadBytes(fileRef, uploadFile).then((snapshot) => {
       console.log("Uploaded file", snapshot);
-      setUploadedFile(userEmail+'/'+uploadFolder+'/'+uploadFileName);
+      setUploadedFile(userEmail + "/" + uploadFolder + "/" + uploadFileName);
       alert("File uploaded");
-      
     });
-    
   };
   const uploadFileToFirebase = () => {
     console.log("uploadFileToFirebase called");
@@ -67,6 +69,7 @@ const UploadModal = ({ setIsOpen, setUploadedFile, uploadedFile,userEmail }) => 
   return (
     <>
       <div className="darkBG" onClick={() => setIsOpen(false)} />
+
       <div className="centered">
         <div>
           <div className="modalHeader">
@@ -104,7 +107,7 @@ const UploadModal = ({ setIsOpen, setUploadedFile, uploadedFile,userEmail }) => 
               type="file"
               onChange={(e) => {
                 setUploadFile(e.target.files[0]);
-                console.log(e.target.files[0])
+                console.log(e.target.files[0]);
               }}
             />
           </div>

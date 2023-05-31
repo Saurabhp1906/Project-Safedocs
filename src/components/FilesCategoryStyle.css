@@ -1,14 +1,15 @@
-.categoryDiv{
-    padding: 2%;
-    border-radius: 7%;
-    display: inline-flex;
-    background-color: rgb(108, 174, 240);
-    margin: 0.6%;
-    font-size: 25px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    box-shadow: 0 10px 20px -10px rgba(52, 52, 53, 0.6);
+.categoryDiv {
+  padding: 2%;
+  border-radius: 7%;
+  display: inline-flex;
+  background-color: rgb(108, 174, 240);
+  margin: 0.6%;
+  font-size: 25px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  box-shadow: 0 10px 20px -10px rgba(52, 52, 53, 0.6);
 }
-.categoryDiv2{
+
+.categoryDiv2 {
   padding: 2%;
   border-radius: 7%;
   display: inline-flex;
@@ -19,113 +20,158 @@
   box-shadow: 0 10px 20px -10px rgba(52, 52, 53, 0.6);
   color: white;
 }
-.categoryDiv:hover {
-    transform: translateY(-3px);
-    cursor: pointer;
-   
-  }
-  .categoryDiv2:hover {
-    transform: translateY(-3px);
-   cursor: pointer;
-  }
-  .categorySection{
-    width: 100%;
-    border-radius: 8px;
-   
-    
-  }
-  .indexclass{
-    z-index: 0;
-    border: 1px;
-    padding: 12px;
-    border-style: solid;
-    margin: 10px;
-    border-radius: 5px;
-    font-weight: 500;
-    width: 80%;
-    
-  }
-  .indexclass:hover{
-    cursor: pointer;
-    
-  }
-  
-  .noFiles{
-    height: 50%;
-    width: 100%;
-   
-    margin: auto;
-    
-  }
-  .noFilesdiv{
-    
-    top: 50%;
-    transform: translateY(-50%);
-    position: relative;
-    text-align: center;
-    font-size: 80px;
-    
-  }
-  .delete{
-    background-color:black;
-    color: white;
-    display: inline;
-  }
-  .inline{
-    display: inline-flex;
 
+.categoryDiv:hover {
+  transform: translateY(-3px);
+  cursor: pointer;
+
+}
+
+.categoryDiv2:hover {
+  transform: translateY(-3px);
+  cursor: pointer;
+}
+
+.categorySection {
+  width: 100%;
+  border-radius: 8px;
+
+
+}
+
+.indexclass {
+  z-index: 0;
+  border: 1px;
+  padding: 12px;
+  border-style: solid;
+  margin: 10px;
+  border-radius: 5px;
+  font-weight: 500;
+  width: 80%;
+
+}
+
+.indexclass:hover {
+  cursor: pointer;
+
+}
+
+.noFiles {
+  height: 50%;
+  width: 100%;
+
+  margin: auto;
+
+}
+
+.noFilesdiv {
+
+  top: 50%;
+  transform: translateY(-50%);
+  position: relative;
+  text-align: center;
+  font-size: 80px;
+
+}
+
+.delete {
+  background-color: black;
+  color: white;
+  display: inline;
+}
+
+.inline {
+  display: inline-flex;
+
+}
+
+.inline1 {
+  display: inline-flex;
+  padding: 10%;
+  margin: 2px;
+  max-height: 40px;
+  max-width: 70px;
+
+}
+
+.scroll {
+  overflow-y: auto;
+  max-height: 60%;
+  height: 65%;
+}
+
+.test {
+
+  width: 100%;
+}
+
+.filedivcategory {
+  display: inline-flex;
+  color: rgb(242, 181, 181);
+  margin-left: auto;
+
+}
+
+.filedivcategory:hover {
+  text-decoration: none;
+}
+
+.filedivname {
+  display: inline-flex;
+}
+
+.filedivname:hover {
+  text-decoration: underline;
+}
+
+.loading {
+  height: 200px;
+  width: 100%;
+  text-align: center;
+
+}
+
+.centeredloading {
+
+  color: black;
+  width: fit-content;
+  height: fit-content;
+  margin-top: 50px;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
   }
-  
-  .inline1{
-    display: inline-flex;
-    padding: 10%;
-    margin: 2px;
-    max-height: 40px;
-    max-width: 70px;
-    
+
+  to {
+    transform: rotate(360deg);
   }
-  .scroll{
-    overflow-y:auto;
-   max-height: 60%;
-   height: 60%;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70%;
+  background-color: white;
+}
+
+.loading-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-  .test{
-    
-    width: 100%;
+
+  100% {
+    transform: rotate(360deg);
   }
-  .filedivcategory{
-    display: inline-flex;
-    color: rgb(242, 181, 181);
-    margin-left: auto;
-    
-  }
-  .filedivcategory:hover{
-    text-decoration: none;
-  }
-  .filedivname{
-    display: inline-flex;
-  }
-  .filedivname:hover{
-    text-decoration: underline;
-  }
-  .loading{
-    height: 200px;
-    width: 100%;
-    text-align: center;
-    
-  }
-  .centeredloading{
-    
-    color: black;
-    width: fit-content;
-    height: fit-content;
-    margin-top: 50px;
-  }
-  @keyframes rotate {
-    from{
-      transform: rotate(0deg);
-    }
-    to{
-      transform: rotate(360deg);
-    }
-  }
+}

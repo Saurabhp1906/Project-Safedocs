@@ -152,6 +152,7 @@
   background-image: url('./Images/backgroundReact.jpg');
   height: 100%;
   position: absolute;
+  width: 100%;
 }
 
 .title{
